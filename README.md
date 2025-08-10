@@ -1,6 +1,7 @@
 # Railway Cohere Docs Search Template
 
 [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/Hlhb0D?referralCode=t_rL5G)
+
 A **one-click deploy template** that lets anyone create a **searchable knowledge base** from their documents using **Cohere's free embeddings API** and **Postgres with pgvector** on Railway.
 
 ## 🚀 Quick Deploy
