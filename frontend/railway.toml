@@ -1,15 +1,13 @@
-version: "3"
+[build]
+builder = "NIXPACKS"
 
-build:
-  builder: NIXPACKS
+[deploy]
+startCommand = "npm start"
+healthcheckPath = "/"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
 
-deploy:
-  startCommand: npm start
-  healthcheckPath: /
-  healthcheckTimeout: 300
-  restartPolicyType: ON_FAILURE
-  restartPolicyMaxRetries: 3
-
-variables:
-  NODE_ENV: production
-  PORT: 8080
+[variables]
+NODE_ENV = "production"
+PORT = 8080
