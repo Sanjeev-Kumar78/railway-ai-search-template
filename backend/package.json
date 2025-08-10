@@ -8,7 +8,13 @@
     "dev": "node --watch src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["railway", "cohere", "search", "embeddings", "api"],
+  "keywords": [
+    "railway",
+    "cohere",
+    "search",
+    "embeddings",
+    "api"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
@@ -17,6 +23,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "pg": "^8.16.3"
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.16.3",
+    "pdf-parse": "^1.1.1"
   }
 }

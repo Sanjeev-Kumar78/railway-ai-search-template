@@ -24,7 +24,7 @@
       },
       {
         "name": "backend",
-        "serviceName": "backend", 
+        "serviceName": "backend",
         "source": {
           "type": "git",
           "repo": "https://github.com/your-username/railway-ai-search-template",
@@ -43,7 +43,7 @@
         "name": "worker",
         "serviceName": "worker",
         "source": {
-          "type": "git", 
+          "type": "git",
           "repo": "https://github.com/your-username/railway-ai-search-template",
           "branch": "main",
           "workdir": "worker"
@@ -98,7 +98,7 @@
   ],
   "tags": [
     "AI",
-    "Search", 
+    "Search",
     "Cohere",
     "Embeddings",
     "PostgreSQL",
@@ -108,9 +108,5 @@
     "Semantic Search",
     "Vector Database"
   ],
-  "categories": [
-    "AI",
-    "Database",
-    "Template"
-  ]
+  "categories": ["AI", "Database", "Template"]
 }

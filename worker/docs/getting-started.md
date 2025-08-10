@@ -24,7 +24,8 @@ This is a semantic search engine that understands the meaning of your queries, n
 Here are some example documents to help you understand how the system works:
 
 ### API Documentation
-```markdown
+
+````markdown
 # Authentication API
 
 To authenticate with our API, you need to include your API key in the header:
@@ -32,9 +33,11 @@ To authenticate with our API, you need to include your API key in the header:
 ```bash
 curl -H "Authorization: Bearer YOUR_API_KEY" https://api.example.com/data
 ```
+````
 
 The API supports both JWT tokens and API keys for authentication.
-```
+
+````
 
 ### Deployment Guide
 ```markdown
@@ -46,9 +49,10 @@ The API supports both JWT tokens and API keys for authentication.
 4. Your application will be available at the provided URL
 
 Railway automatically handles SSL certificates and domain management.
-```
+````
 
 ### FAQ
+
 ```markdown
 # Frequently Asked Questions
 
@@ -65,6 +69,7 @@ A: Free accounts have a limit of 1000 requests per hour.
 ## Search Examples
 
 Try searching for:
+
 - "How do I authenticate with the API?"
 - "Railway deployment steps"
 - "Password reset process"

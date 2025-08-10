@@ -10,7 +10,13 @@
     "export": "next export",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["railway", "cohere", "search", "frontend", "nextjs"],
+  "keywords": [
+    "railway",
+    "cohere",
+    "search",
+    "frontend",
+    "nextjs"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {

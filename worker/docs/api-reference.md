@@ -11,6 +11,7 @@ https://your-app.railway.app/api
 ```
 
 For local development:
+
 ```
 http://localhost:3001/api
 ```
@@ -28,6 +29,7 @@ Perform semantic search across your document collection.
 **Endpoint:** `POST /search`
 
 **Request Body:**
+
 ```json
 {
   "query": "string (required) - The search query",
@@ -37,6 +39,7 @@ Perform semantic search across your document collection.
 ```
 
 **Response:**
+
 ```json
 {
   "query": "How to deploy on Railway?",
@@ -60,6 +63,7 @@ Perform semantic search across your document collection.
 ```
 
 **Example Request:**
+
 ```bash
 curl -X POST https://your-app.railway.app/api/search \
   -H "Content-Type: application/json" \
@@ -71,6 +75,7 @@ curl -X POST https://your-app.railway.app/api/search \
 ```
 
 **Error Responses:**
+
 ```json
 {
   "error": "Query is required and must be a string"
@@ -84,6 +89,7 @@ Retrieve information about the indexed document collection.
 **Endpoint:** `GET /stats`
 
 **Response:**
+
 ```json
 {
   "documents": 142,
@@ -93,6 +99,7 @@ Retrieve information about the indexed document collection.
 ```
 
 **Example Request:**
+
 ```bash
 curl https://your-app.railway.app/api/stats
 ```
@@ -104,6 +111,7 @@ Check if the API service is running properly.
 **Endpoint:** `GET /health`
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -118,12 +126,14 @@ Check if the API service is running properly.
 ### Effective Search Queries
 
 **Good Queries:**
+
 - "How do I deploy my application?"
 - "Environment variable configuration"
 - "Database connection setup"
 - "Authentication with API keys"
 
 **Less Effective:**
+
 - Single words like "deploy" or "config"
 - Very short phrases
 - Queries with only special characters
@@ -141,15 +151,18 @@ Check if the API service is running properly.
 ### Common Error Codes
 
 **400 Bad Request**
+
 - Missing or invalid query parameter
 - Invalid limit or threshold values
 
 **500 Internal Server Error**
+
 - Database connection issues
 - Cohere API errors
 - Processing failures
 
 ### Error Response Format
+
 ```json
 {
   "error": "Description of the error",
@@ -160,6 +173,7 @@ Check if the API service is running properly.
 ## Rate Limiting
 
 Currently, there are no rate limits implemented. In production, consider implementing:
+
 - Rate limiting per IP address
 - Authentication-based quotas
 - Request throttling during high load
@@ -167,16 +181,17 @@ Currently, there are no rate limits implemented. In production, consider impleme
 ## SDKs and Libraries
 
 ### JavaScript/Node.js
+
 ```javascript
-const response = await fetch('/api/search', {
-  method: 'POST',
+const response = await fetch("/api/search", {
+  method: "POST",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    query: 'How to use the API?',
-    limit: 5
-  })
+    query: "How to use the API?",
+    limit: 5,
+  }),
 });
 
 const data = await response.json();
@@ -184,6 +199,7 @@ console.log(data.results);
 ```
 
 ### Python
+
 ```python
 import requests
 
@@ -197,6 +213,7 @@ print(data['results'])
 ```
 
 ### cURL
+
 ```bash
 # Basic search
 curl -X POST /api/search \
@@ -231,11 +248,13 @@ Each search result includes metadata about the source document:
 ### Response Times
 
 Typical response times:
+
 - Simple queries: 100-300ms
 - Complex queries: 300-800ms
 - Large result sets: 500-1000ms
 
 Times may vary based on:
+
 - Database size
 - Query complexity
 - Server load
@@ -246,16 +265,19 @@ Times may vary based on:
 ### Common Issues
 
 **No Results Returned**
+
 - Try broader search terms
 - Lower the similarity threshold
 - Check if documents were properly indexed
 
 **Slow Response Times**
+
 - Verify database performance
 - Check Cohere API status
 - Monitor server resources
 
 **Unexpected Results**
+
 - Review document content and chunking
 - Adjust similarity threshold
 - Try different query phrasings
@@ -263,6 +285,7 @@ Times may vary based on:
 ### Debug Information
 
 In development mode, additional debug information is available:
+
 - Detailed error messages
 - Processing timestamps
 - Query analysis results

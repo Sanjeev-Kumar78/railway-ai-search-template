@@ -23,6 +23,7 @@ This demonstrates a **complete multi-service setup**:
 ## 🎯 Use Cases
 
 Perfect for:
+
 - **Documentation search** for your projects
 - **Internal knowledge bases** for teams
 - **Content discovery** for blogs and articles
@@ -62,26 +63,30 @@ Perfect for:
 ## 🔧 Local Development
 
 ### Prerequisites
-- Node.js 18+
+
+- Node.js 20+
 - PostgreSQL with pgvector extension
 - Cohere API key (free from [cohere.com](https://cohere.com))
 
 ### Setup
 
 1. **Clone and install**:
+
    ```bash
-   git clone <your-repo>
+   git clone https://github.com/Sanjeev-Kumar78/railway-ai-search-template.git
    cd railway-ai-search-template
    ```
 
 2. **Install dependencies**:
+
    ```bash
    cd backend && npm install
-   cd ../frontend && npm install  
+   cd ../frontend && npm install
    cd ../worker && npm install
    ```
 
 3. **Environment setup**:
+
    ```bash
    # Create .env files in each service directory
    cp backend/.env.example backend/.env
@@ -90,29 +95,32 @@ Perfect for:
    ```
 
 4. **Configure environment variables**:
+
    ```env
    # Backend & Worker .env
    DATABASE_URL=postgresql://user:pass@localhost:5432/search_db
    COHERE_API_KEY=your_cohere_api_key_here
-   
+
    # Frontend .env
    NEXT_PUBLIC_API_URL=http://localhost:3001
    ```
 
 5. **Setup database**:
+
    ```bash
    # Install pgvector extension in your PostgreSQL
    CREATE EXTENSION vector;
    ```
 
 6. **Run services**:
+
    ```bash
    # Terminal 1 - Backend
    cd backend && npm run dev
-   
-   # Terminal 2 - Frontend  
+
+   # Terminal 2 - Frontend
    cd frontend && npm run dev
-   
+
    # Terminal 3 - Worker (run once to ingest docs)
    cd worker && npm start
    ```
@@ -136,6 +144,7 @@ docker-compose run --rm worker npm start
 ```
 
 This will start:
+
 - Frontend at http://localhost:3000
 - Backend API at http://localhost:3001
 - PostgreSQL database with pgvector
@@ -175,6 +184,7 @@ docker-compose run --rm worker npm start
 ## 📁 Adding Your Documents
 
 1. Place your documents in `worker/docs/`:
+
    ```
    worker/docs/
    ├── guide.md
@@ -186,6 +196,7 @@ docker-compose run --rm worker npm start
    ```
 
 2. Run the worker to process them:
+
    ```bash
    cd worker && npm start
    ```
@@ -195,6 +206,7 @@ docker-compose run --rm worker npm start
 ## 🌐 API Endpoints
 
 ### Search
+
 ```bash
 POST /api/search
 Content-Type: application/json
@@ -206,6 +218,7 @@ Content-Type: application/json
 ```
 
 ### Health Check
+
 ```bash
 GET /api/health
 ```
@@ -213,16 +226,19 @@ GET /api/health
 ## 🎨 Customization
 
 ### Frontend Styling
+
 - Edit `frontend/styles/` for custom CSS
 - Modify `frontend/components/` for UI changes
 - Update `frontend/pages/` for new routes
 
 ### Backend Logic
+
 - Add custom preprocessing in `backend/src/services/`
 - Modify search scoring in `backend/src/controllers/search.js`
 - Add authentication in `backend/src/middleware/`
 
 ### Worker Processing
+
 - Custom file types in `worker/src/processors/`
 - Different chunking strategies in `worker/src/chunking.js`
 - Batch processing in `worker/src/ingestion.js`
@@ -230,11 +246,13 @@ GET /api/health
 ## 🚀 Deployment
 
 ### Railway (Recommended)
+
 1. Connect your GitHub repo to Railway
 2. Add environment variables in Railway dashboard
 3. Deploy all services with one click
 
 ### Manual Docker Deploy
+
 ```bash
 # Build and run each service
 docker build -t search-backend ./backend
