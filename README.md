@@ -35,14 +35,16 @@ Perfect for:
 - ✅ **100% free to start** - Uses Cohere's free API tier
 - ✅ **One-click Railway deploy** - No complex setup required
 - ✅ **Semantic search** - Find content by meaning, not just keywords
+- ✅ **File upload interface** - Upload documents directly through the web UI
+- ✅ **Multiple file formats** - Supports .txt, .md, .pdf, and .docx files
 - ✅ **Scalable architecture** - Add more docs anytime
 - ✅ **Modern tech stack** - Next.js, Express, Postgres
 - ✅ **Production ready** - Built with Railway's best practices
 
 ## 🛠️ How It Works
 
-1. **Upload Documents**: Place your `.txt`, `.md`, or other text files in the worker's `docs/` folder
-2. **Automatic Processing**: The worker chunks your documents and generates embeddings using Cohere
+1. **Upload Documents**: Use the web interface to upload files or place your `.txt`, `.md`, or other text files in the worker's `docs/` folder
+2. **Automatic Processing**: The system chunks your documents and generates embeddings using Cohere
 3. **Vector Storage**: Embeddings are stored in Postgres with pgvector for fast similarity search
 4. **Smart Search**: Users search through a clean web interface that finds semantically similar content
 
@@ -127,17 +129,31 @@ Perfect for:
 
 ### Local Development with Docker
 
-For a one-command local setup:
+For the fastest setup, use the included setup scripts:
+
+**Windows:**
+
+```cmd
+setup.bat
+```
+
+**macOS/Linux:**
+
+```bash
+chmod +x setup.sh && ./setup.sh
+```
+
+**Manual Setup:**
 
 ```bash
 # 1. Copy environment file
-cp .env.example .env
+cp .env.docker .env
 
-# 2. Add your Cohere API key to .env
+# 2. Edit .env and add your Cohere API key
 # COHERE_API_KEY=your_cohere_api_key_here
 
 # 3. Start all services with Docker Compose
-docker-compose up
+docker-compose up --build
 
 # 4. Run worker to ingest documents (in another terminal)
 docker-compose run --rm worker npm start
@@ -215,6 +231,25 @@ Content-Type: application/json
   "query": "How do I deploy to Railway?",
   "limit": 5
 }
+```
+
+### Upload Documents
+
+```bash
+POST /api/upload
+Content-Type: multipart/form-data
+
+# Upload a file
+curl -X POST \
+  -F "file=@document.pdf" \
+  http://localhost:3001/api/upload
+```
+
+### Upload Statistics
+
+```bash
+GET /api/uploads
+# Returns supported file types and upload stats
 ```
 
 ### Health Check

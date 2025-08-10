@@ -8,6 +8,7 @@ COPY package.json package-lock.json* ./
 RUN npm install
 
 # Copy source code
+
 COPY . .
 
 # Build the application
@@ -22,7 +23,7 @@ RUN chown -R nextjs:nodejs /app
 USER nextjs
 
 # Expose port
-EXPOSE 3000
+EXPOSE ${PORT}
 
 # Start the application
 CMD ["npm", "start"]

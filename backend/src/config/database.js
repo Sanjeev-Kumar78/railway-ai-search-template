@@ -40,9 +40,19 @@ async function initializeDatabase() {
     }
 }
 
-async function searchSimilarDocuments(queryEmbedding, limit = 5, threshold = 0.7) {
+async function searchSimilarDocuments(queryEmbedding, limit = 5, threshold = 0.3) {
     const client = await pool.connect();
     try {
+        console.log(`🔍 Search params: limit=${limit}, similarity_threshold=${threshold}`);
+
+        // First, let's see all documents without any filtering
+        const allDocsQuery = `SELECT id, content, source_file, chunk_index FROM documents LIMIT 5`;
+        const allDocs = await client.query(allDocsQuery);
+        console.log(`📄 Total documents in DB: ${allDocs.rows.length}`);
+        if (allDocs.rows.length > 0) {
+            console.log(`📄 Sample document: ${allDocs.rows[0].content.substring(0, 100)}...`);
+        }
+
         const query = `
       SELECT 
         id,
@@ -50,18 +60,21 @@ async function searchSimilarDocuments(queryEmbedding, limit = 5, threshold = 0.7
         metadata,
         source_file,
         chunk_index,
-        cosine_similarity(embedding, $1::vector) AS similarity
+        1 - cosine_distance(embedding, $1::vector) AS similarity
       FROM documents 
-      WHERE cosine_similarity(embedding, $1::vector) > $2
+      WHERE 1 - cosine_distance(embedding, $1::vector) > $2
       ORDER BY similarity DESC
       LIMIT $3
     `;
+        const values = [`[${queryEmbedding.join(',')}]`, threshold, limit];
 
-        const result = await client.query(query, [
-            `[${queryEmbedding.join(',')}]`,
-            threshold,
-            limit
-        ]);
+        const result = await client.query(query, values);
+
+        console.log(`🔍 Query returned ${result.rows.length} rows`);
+        if (result.rows.length > 0) {
+            console.log(`🔍 Best match: similarity=${result.rows[0].similarity}`);
+            console.log(`🔍 Content preview: ${result.rows[0].content.substring(0, 100)}...`);
+        }
 
         return result.rows;
     } finally {
@@ -79,9 +92,33 @@ async function getDocumentCount() {
     }
 }
 
+async function insertDocument({ content, embedding, metadata = {}, source_file, chunk_index = 0 }) {
+    const client = await pool.connect();
+    try {
+        const query = `
+            INSERT INTO documents (content, embedding, metadata, source_file, chunk_index)
+            VALUES ($1, $2::vector, $3, $4, $5)
+            RETURNING id
+        `;
+
+        const result = await client.query(query, [
+            content,
+            `[${embedding.join(',')}]`,
+            JSON.stringify(metadata),
+            source_file,
+            chunk_index
+        ]);
+
+        return result.rows[0];
+    } finally {
+        client.release();
+    }
+}
+
 module.exports = {
     pool,
     initializeDatabase,
     searchSimilarDocuments,
-    getDocumentCount
+    getDocumentCount,
+    insertDocument
 };

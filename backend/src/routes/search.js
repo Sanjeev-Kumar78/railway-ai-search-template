@@ -7,7 +7,7 @@ const router = express.Router();
 // POST /api/search - Semantic search endpoint
 router.post('/search', async (req, res) => {
     try {
-        const { query, limit = 5, threshold = 0.7 } = req.body;
+        const { query, limit = 5, threshold = 0.3 } = req.body;
 
         if (!query || typeof query !== 'string') {
             return res.status(400).json({
@@ -24,13 +24,18 @@ router.post('/search', async (req, res) => {
         console.log(`🔍 Searching for: "${query}"`);
 
         // Generate embedding for the search query
+        console.log('🔍 Generating embedding...');
         const queryEmbedding = await generateEmbedding(query);
+        console.log(`🔍 Generated embedding with ${queryEmbedding.length} dimensions`);
 
         // Search for similar documents
+        console.log('🔍 Searching database...');
+        const searchThreshold = parseFloat(threshold) || 0.3;
+        console.log(`🔍 Using threshold: ${searchThreshold}`);
         const results = await searchSimilarDocuments(
             queryEmbedding,
             Math.min(parseInt(limit) || 5, 20), // Cap at 20 results
-            Math.max(parseFloat(threshold) || 0.7, 0.5) // Min threshold of 0.5
+            searchThreshold
         );
 
         console.log(`📊 Found ${results.length} similar documents`);
@@ -40,12 +45,13 @@ router.post('/search', async (req, res) => {
             results: results.map(doc => ({
                 id: doc.id,
                 content: doc.content,
-                similarity: parseFloat(doc.similarity),
-                source: doc.source_file,
-                chunk: doc.chunk_index,
+                similarity: parseFloat(doc.similarity.toFixed(4)),
+                source_file: doc.source_file,
+                chunk_index: doc.chunk_index,
                 metadata: doc.metadata
             })),
             count: results.length,
+            threshold: searchThreshold,
             timestamp: new Date().toISOString()
         });
 

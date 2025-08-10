@@ -3,9 +3,12 @@ services:
     build: ./frontend
     ports:
       - "3000:3000"
+    env_file:
+      - .env
     environment:
-      - NODE_ENV=development
-      - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:3001}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3000}
+      - PORT=3000
     depends_on:
       - backend
     networks:
@@ -15,11 +18,13 @@ services:
     build: ./backend
     ports:
       - "3001:3001"
+    env_file:
+      - .env
     environment:
-      - NODE_ENV=development
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/search_db
-      - COHERE_API_KEY=${COHERE_API_KEY}
-      - FRONTEND_URL=http://localhost:3000
+      - COHERE_API_KEY=${COHERE_API_KEY:-}
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:password@postgres:5432/search_db}
+      - NODE_ENV=${NODE_ENV:-development}
+      - PORT=3001
     depends_on:
       - postgres
     networks:
@@ -27,15 +32,14 @@ services:
 
   worker:
     build: ./worker
+    env_file:
+      - .env
     environment:
-      - NODE_ENV=development
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/search_db
-      - COHERE_API_KEY=${COHERE_API_KEY}
-      - BATCH_SIZE=10
-      - CHUNK_SIZE=1000
-      - CHUNK_OVERLAP=200
-      - SKIP_EXISTING=true
-      - VERBOSE=true
+      - COHERE_API_KEY=${COHERE_API_KEY:-}
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres:password@postgres:5432/search_db}
+      - BATCH_SIZE=${BATCH_SIZE:-10}
+      - CHUNK_SIZE=${CHUNK_SIZE:-1000}
+      - CHUNK_OVERLAP=${CHUNK_OVERLAP:-200}
     depends_on:
       - postgres
     networks:
@@ -45,10 +49,12 @@ services:
 
   postgres:
     image: pgvector/pgvector:pg17
+    env_file:
+      - .env.docker
     environment:
-      - POSTGRES_DB=search_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=${POSTGRES_DB:-search_db}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
     ports:
       - "5432:5432"
     volumes:
