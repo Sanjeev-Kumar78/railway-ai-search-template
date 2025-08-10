@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const raw_API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = raw_API_URL.startsWith('https://') ? raw_API_URL : `https://${raw_API_URL}`;
 
 export default function Home() {
     const [query, setQuery] = useState('');
