@@ -1,0 +1,16 @@
+{
+  "name": "Railway Cohere Docs Search",
+  "short_name": "Docs Search",
+  "description": "AI-powered semantic search for your documents using Cohere and Railway",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#667eea",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+    depends_on:
+      - backend
+    networks:
+      - search-network
+
+  backend:
+    build: ./backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/search_db
+      - COHERE_API_KEY=${COHERE_API_KEY}
+      - FRONTEND_URL=http://localhost:3000
+    depends_on:
+      - postgres
+    networks:
+      - search-network
+
+  worker:
+    build: ./worker
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/search_db
+      - COHERE_API_KEY=${COHERE_API_KEY}
+      - BATCH_SIZE=10
+      - CHUNK_SIZE=1000
+      - CHUNK_OVERLAP=200
+      - SKIP_EXISTING=true
+      - VERBOSE=true
+    depends_on:
+      - postgres
+    networks:
+      - search-network
+    profiles:
+      - tools # Only run when explicitly requested
+
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      - POSTGRES_DB=search_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - search-network
+
+volumes:
+  postgres_data:
+
+networks:
+  search-network:
+    driver: bridge

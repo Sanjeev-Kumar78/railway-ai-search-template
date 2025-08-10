@@ -1,0 +1,116 @@
+{
+  "name": "Railway Cohere Docs Search Template",
+  "description": "A one-click deploy template for AI-powered semantic document search using Cohere embeddings and PostgreSQL with pgvector. Perfect for creating searchable knowledge bases, documentation sites, and content discovery systems.",
+  "repository": "https://github.com/your-username/railway-ai-search-template",
+  "template": {
+    "name": "Railway Cohere Docs Search",
+    "description": "Deploy an AI-powered semantic search engine for your documents using Cohere's free embeddings API and PostgreSQL with pgvector. Includes a Next.js frontend, Express backend, and document ingestion worker.",
+    "code": "https://github.com/your-username/railway-ai-search-template",
+    "services": [
+      {
+        "name": "frontend",
+        "serviceName": "frontend",
+        "source": {
+          "type": "git",
+          "repo": "https://github.com/your-username/railway-ai-search-template",
+          "branch": "main",
+          "workdir": "frontend"
+        },
+        "variables": {
+          "NODE_ENV": "production",
+          "PORT": "3000",
+          "NEXT_PUBLIC_API_URL": "${{backend.RAILWAY_PUBLIC_DOMAIN}}"
+        }
+      },
+      {
+        "name": "backend",
+        "serviceName": "backend", 
+        "source": {
+          "type": "git",
+          "repo": "https://github.com/your-username/railway-ai-search-template",
+          "branch": "main",
+          "workdir": "backend"
+        },
+        "variables": {
+          "NODE_ENV": "production",
+          "PORT": "3001",
+          "DATABASE_URL": "${{Postgres.DATABASE_URL}}",
+          "COHERE_API_KEY": "",
+          "FRONTEND_URL": "${{frontend.RAILWAY_PUBLIC_DOMAIN}}"
+        }
+      },
+      {
+        "name": "worker",
+        "serviceName": "worker",
+        "source": {
+          "type": "git", 
+          "repo": "https://github.com/your-username/railway-ai-search-template",
+          "branch": "main",
+          "workdir": "worker"
+        },
+        "variables": {
+          "NODE_ENV": "production",
+          "DATABASE_URL": "${{Postgres.DATABASE_URL}}",
+          "COHERE_API_KEY": "",
+          "BATCH_SIZE": "10",
+          "CHUNK_SIZE": "1000",
+          "CHUNK_OVERLAP": "200",
+          "SKIP_EXISTING": "true",
+          "VERBOSE": "true"
+        }
+      },
+      {
+        "name": "Postgres",
+        "serviceName": "database",
+        "source": {
+          "type": "image",
+          "image": "pgvector/pgvector:pg15"
+        },
+        "variables": {
+          "POSTGRES_DB": "search_db",
+          "POSTGRES_USER": "postgres",
+          "POSTGRES_PASSWORD": "${{POSTGRES_PASSWORD}}"
+        },
+        "volumes": [
+          {
+            "name": "postgres_data",
+            "mountPath": "/var/lib/postgresql/data"
+          }
+        ]
+      }
+    ],
+    "variables": {
+      "COHERE_API_KEY": {
+        "description": "Your Cohere API key (get free one at cohere.com)",
+        "required": true
+      },
+      "POSTGRES_PASSWORD": {
+        "description": "Password for PostgreSQL database",
+        "generate": true
+      }
+    }
+  },
+  "plugins": [
+    {
+      "name": "PostgreSQL",
+      "type": "postgresql"
+    }
+  ],
+  "tags": [
+    "AI",
+    "Search", 
+    "Cohere",
+    "Embeddings",
+    "PostgreSQL",
+    "Next.js",
+    "Express",
+    "Documentation",
+    "Semantic Search",
+    "Vector Database"
+  ],
+  "categories": [
+    "AI",
+    "Database",
+    "Template"
+  ]
+}

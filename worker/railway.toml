@@ -1,0 +1,17 @@
+version: "3"
+
+build:
+  builder: NIXPACKS
+
+deploy:
+  startCommand: npm start
+  restartPolicyType: NEVER
+  cronSchedule: "0 */6 * * *"  # Run every 6 hours
+
+variables:
+  NODE_ENV: production
+  BATCH_SIZE: 10
+  CHUNK_SIZE: 1000
+  CHUNK_OVERLAP: 200
+  SKIP_EXISTING: true
+  VERBOSE: true
