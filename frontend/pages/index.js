@@ -85,7 +85,7 @@ export default function Home() {
 
     const handleFileUpload = async (e) => {
         e.preventDefault();
-        
+
         if (!uploadFile) {
             setUploadError('Please select a file to upload');
             return;
@@ -112,14 +112,14 @@ export default function Home() {
             const data = await response.json();
             setUploadSuccess(`File uploaded successfully! Processed ${data.processing.processedChunks}/${data.processing.totalChunks} chunks.`);
             setUploadFile(null);
-            
+
             // Reset file input
             const fileInput = document.getElementById('file-upload');
             if (fileInput) fileInput.value = '';
-            
+
             // Refresh stats
             fetchStats();
-            
+
         } catch (err) {
             console.error('Upload error:', err);
             setUploadError(err.message || 'Upload failed. Please try again.');
@@ -172,9 +172,9 @@ export default function Home() {
                             📊 {stats.documents} documents indexed
                         </div>
                     )}
-                    
+
                     <div className="upload-toggle">
-                        <button 
+                        <button
                             type="button"
                             onClick={() => setShowUpload(!showUpload)}
                             className="toggle-button"
@@ -192,7 +192,7 @@ export default function Home() {
                             <p className="upload-description">
                                 Upload text files, PDFs, or Markdown documents to add them to the search index.
                             </p>
-                            
+
                             <form onSubmit={handleFileUpload} className="upload-form">
                                 <div className="file-input-container">
                                     <input
@@ -212,7 +212,7 @@ export default function Home() {
                                         </div>
                                     )}
                                 </div>
-                                
+
                                 <button
                                     type="submit"
                                     disabled={!uploadFile || uploadLoading}
@@ -221,19 +221,19 @@ export default function Home() {
                                     {uploadLoading ? '⏳ Processing...' : '🚀 Upload & Index'}
                                 </button>
                             </form>
-                            
+
                             {uploadError && (
                                 <div className="error-message">
                                     ❌ {uploadError}
                                 </div>
                             )}
-                            
+
                             {uploadSuccess && (
                                 <div className="success-message">
                                     ✅ {uploadSuccess}
                                 </div>
                             )}
-                            
+
                             <div className="upload-info">
                                 <h3>Supported File Types:</h3>
                                 <ul>
@@ -249,94 +249,94 @@ export default function Home() {
                         // Search Section
                         <div className="search-section">
                             <form onSubmit={handleSearch} className="search-form">
-                        <div className="search-container">
-                            <input
-                                ref={searchInputRef}
-                                type="text"
-                                value={query}
-                                onChange={(e) => setQuery(e.target.value)}
-                                placeholder="Search your documents... (e.g., 'How to deploy on Railway?')"
-                                className="search-input"
-                                disabled={loading}
-                            />
-                            <button
-                                type="submit"
-                                className="search-button"
-                                disabled={loading || !query.trim()}
-                            >
-                                {loading ? '🔄' : '🔍'}
-                            </button>
-                        </div>
-                    </form>
+                                <div className="search-container">
+                                    <input
+                                        ref={searchInputRef}
+                                        type="text"
+                                        value={query}
+                                        onChange={(e) => setQuery(e.target.value)}
+                                        placeholder="Search your documents... (e.g., 'How to deploy on Railway?')"
+                                        className="search-input"
+                                        disabled={loading}
+                                    />
+                                    <button
+                                        type="submit"
+                                        className="search-button"
+                                        disabled={loading || !query.trim()}
+                                    >
+                                        {loading ? '🔄' : '🔍'}
+                                    </button>
+                                </div>
+                            </form>
 
-                    {error && (
-                        <div className="error">
-                            ⚠️ {error}
-                        </div>
-                    )}
+                            {error && (
+                                <div className="error">
+                                    ⚠️ {error}
+                                </div>
+                            )}
 
-                    {loading && (
-                        <div className="loading">
-                            <div className="spinner"></div>
-                            <p>Searching your documents...</p>
-                        </div>
-                    )}
+                            {loading && (
+                                <div className="loading">
+                                    <div className="spinner"></div>
+                                    <p>Searching your documents...</p>
+                                </div>
+                            )}
 
-                    {results.length > 0 && !loading && (
-                        <div className="results">
-                            <h2 className="results-title">
-                                Found {results.length} relevant document{results.length !== 1 ? 's' : ''}
-                            </h2>
-                            <div className="results-list">
-                                {results.map((result) => (
-                                    <div key={result.id} className="result-item">
-                                        <div className="result-header">
-                                            <span className="result-source">
-                                                📄 {result.source || 'Unknown source'}
-                                            </span>
-                                            <span className="result-similarity">
-                                                {Math.round(result.similarity * 100)}% match
-                                            </span>
-                                        </div>
-                                        <div
-                                            className="result-content"
-                                            dangerouslySetInnerHTML={{
-                                                __html: highlightQuery(result.content, query)
-                                            }}
-                                        />
-                                        {result.chunk > 0 && (
-                                            <div className="result-meta">
-                                                Chunk {result.chunk + 1}
+                            {results.length > 0 && !loading && (
+                                <div className="results">
+                                    <h2 className="results-title">
+                                        Found {results.length} relevant document{results.length !== 1 ? 's' : ''}
+                                    </h2>
+                                    <div className="results-list">
+                                        {results.map((result) => (
+                                            <div key={result.id} className="result-item">
+                                                <div className="result-header">
+                                                    <span className="result-source">
+                                                        📄 {result.source || 'Unknown source'}
+                                                    </span>
+                                                    <span className="result-similarity">
+                                                        {Math.round(result.similarity * 100)}% match
+                                                    </span>
+                                                </div>
+                                                <div
+                                                    className="result-content"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: highlightQuery(result.content, query)
+                                                    }}
+                                                />
+                                                {result.chunk > 0 && (
+                                                    <div className="result-meta">
+                                                        Chunk {result.chunk + 1}
+                                                    </div>
+                                                )}
                                             </div>
-                                        )}
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
+                                </div>
+                            )}
 
-                    {!loading && !error && results.length === 0 && query.trim() && (
-                        <div className="no-results">
-                            <p>🤔 No results found for "{query}"</p>
-                            <p>Try using different keywords or phrases.</p>
-                        </div>
-                    )}
+                            {!loading && !error && results.length === 0 && query.trim() && (
+                                <div className="no-results">
+                                    <p>🤔 No results found for "{query}"</p>
+                                    <p>Try using different keywords or phrases.</p>
+                                </div>
+                            )}
 
-                    {!loading && !query.trim() && results.length === 0 && (
-                        <div className="welcome">
-                            <h2>Welcome to your AI-powered search!</h2>
-                            <p>Enter a question or topic above to find relevant information from your documents.</p>
-                            <div className="examples">
-                                <h3>Try searching for:</h3>
-                                <ul>
-                                    <li>"How do I deploy my app?"</li>
-                                    <li>"Database configuration"</li>
-                                    <li>"API authentication"</li>
-                                    <li>"Environment variables"</li>
-                                </ul>
-                            </div>
-                        </div>
-                    )}
+                            {!loading && !query.trim() && results.length === 0 && (
+                                <div className="welcome">
+                                    <h2>Welcome to your AI-powered search!</h2>
+                                    <p>Enter a question or topic above to find relevant information from your documents.</p>
+                                    <div className="examples">
+                                        <h3>Try searching for:</h3>
+                                        <ul>
+                                            <li>"How do I deploy my app?"</li>
+                                            <li>"Database configuration"</li>
+                                            <li>"API authentication"</li>
+                                            <li>"Environment variables"</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
                 </main>
