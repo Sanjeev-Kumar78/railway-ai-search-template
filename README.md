@@ -12,6 +12,12 @@ A **one-click deploy template** that lets anyone create a **searchable knowledge
 4. Deploy and wait for services to start
 5. Upload your docs and start searching!
 
+   
+
+https://github.com/user-attachments/assets/ed06df1c-d1a4-4770-bc5d-372e02a1f53c
+
+
+
 ## 📖 What This Template Includes
 
 This demonstrates a **complete multi-service setup**:
