@@ -8,8 +8,9 @@ A **one-click deploy template** that lets anyone create a **searchable knowledge
 
 1. Click the "Deploy on Railway" button above
 2. Add your Cohere API key (free from [cohere.com](https://cohere.com))
-3. Deploy and wait for services to start
-4. Upload your docs and start searching!
+3. Add the Cohere API Key to the backend service variables on railway.
+4. Deploy and wait for services to start
+5. Upload your docs and start searching!
 
 ## 📖 What This Template Includes
 
@@ -50,17 +51,10 @@ Perfect for:
 
 ## 🏗️ Architecture
 
-```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│   Frontend  │────│   Backend   │────│  Postgres   │
-│  (Next.js)  │    │  (Express)  │    │ (pgvector)  │
-└─────────────┘    └─────────────┘    └─────────────┘
-                           │
-                   ┌─────────────┐    ┌─────────────┐
-                   │   Worker    │────│   Cohere    │
-                   │ (Ingestion) │    │     API     │
-                   └─────────────┘    └─────────────┘
-```
+
+<img width="925" height="564" alt="image" src="https://github.com/user-attachments/assets/2d022a14-f65e-46b5-ac59-49e67491216c" />
+
+
 
 ## 🔧 Local Development
 
@@ -130,18 +124,6 @@ Perfect for:
 ### Local Development with Docker
 
 For the fastest setup, use the included setup scripts:
-
-**Windows:**
-
-```cmd
-setup.bat
-```
-
-**macOS/Linux:**
-
-```bash
-chmod +x setup.sh && ./setup.sh
-```
 
 **Manual Setup:**
 
@@ -270,7 +252,7 @@ GET /api/health
 
 - Add custom preprocessing in `backend/src/services/`
 - Modify search scoring in `backend/src/controllers/search.js`
-- Add authentication in `backend/src/middleware/`
+
 
 ### Worker Processing
 
@@ -298,13 +280,6 @@ docker build -t search-worker ./worker
 docker-compose up -d
 ```
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## 📄 License
 
@@ -319,4 +294,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Why This Template is Valuable:**
-This template makes semantic search accessible to anyone — no complex setup, no expensive AI tokens, and no need to run heavy ML models locally. It's ready for immediate customization, making it perfect for hackathon demos, internal tools, or production documentation search systems.
+This template makes semantic search accessible to anyone — no complex setup, no expensive AI tokens, and no need to run heavy ML models locally. It's ready for immediate customization, making it perfect for internal tools, or production documentation search systems.
