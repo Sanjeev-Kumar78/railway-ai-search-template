@@ -52,7 +52,7 @@ Perfect for:
 ## 🏗️ Architecture
 
 
-<img width="925" height="564" alt="image" src="https://github.com/user-attachments/assets/2d022a14-f65e-46b5-ac59-49e67491216c" />
+<img width="925" height="564" alt="Architecture diagram showing Frontend (Next.js), Backend (Express), Postgres (pgvector), Worker (Ingestion), and Cohere API components" src="https://github.com/user-attachments/assets/2d022a14-f65e-46b5-ac59-49e67491216c" />
 
 
 
